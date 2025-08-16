@@ -1,20 +1,37 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { useState } from 'react';
+import Modal from './components/Modal';
+import Terminal from './components/Terminal';
+import RecruiterPage from './components/RecruiterPage'; // Import the new component
 
 function App() {
-  const [count, setCount] = useState(0)
+    const [showModal, setShowModal] = useState(true);
+    const [view, setView] = useState('terminal'); // Default view
 
-  return (
-    <>
-    <div className="portfolio">
-      <h1>Hi, I'm Shankara Perumal Arunachalam</h1>
-      <h2>Frontend Developer (React, JavaScript, HTML, CSS)</h2>
-      <p>📍 India | 5 years experience | Aiming for ₹36L package</p>
-    </div>
-    </>
-  )
+    const handleRecruiterClick = () => {
+        setView('recruiter'); // Switch the view to 'recruiter'
+        setShowModal(false);
+    };
+
+    const handleTerminalClick = () => {
+        setView('terminal');
+        setShowModal(false);
+    };
+
+    return (
+        <>
+            <Modal isOpen={showModal}>
+                <h2>Welcome to my Portfolio</h2>
+                <p>Please choose your experience:</p>
+                <div className="modal-buttons">
+                    <button onClick={handleRecruiterClick}>For Recruiters</button>
+                    <button onClick={handleTerminalClick}>Enter Terminal</button>
+                </div>
+            </Modal>
+            
+            {/* Conditionally render the component based on the 'view' state */}
+            {!showModal && (view === 'terminal' ? <Terminal /> : <RecruiterPage setView={setView} />)}
+        </>
+    );
 }
 
-export default App
+export default App;
